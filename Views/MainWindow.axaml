@@ -1,0 +1,89 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DailyQuotaTimer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="250"
+        Width="300" Height="250"
+        x:Class="DailyQuotaTimer.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Daily Quota Timer"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
+        <Grid
+            ColumnDefinitions="Auto,Auto,Auto,Auto,Auto"
+            Margin="15"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            >
+            <Button Grid.Column="0" x:Name="Btn5M" Click="Btn5M_OnClick">5m</Button>
+            <Button Grid.Column="1" x:Name="Btn10M" Click="Btn10M_OnClick">10m</Button>
+            <Button Grid.Column="2" x:Name="Btn30M" Click="Btn30M_OnClick">30m</Button>
+            <Button Grid.Column="3" x:Name="Btn1H" Click="Btn1H_OnClick">1h</Button>
+            <Button Grid.Column="4" x:Name="Btn2H" Click="Btn2H_OnClick">2h</Button>
+        </Grid>
+        
+        <Grid
+            ColumnDefinitions="Auto,Auto,Auto,Auto,Auto"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            >
+            <TextBlock Grid.Column="0"
+                       FontSize="30"
+                       x:Name="HourIndicator"
+            >00</TextBlock>
+            <Label Grid.Column="1"
+            FontSize="30"
+            >:</Label>
+            <TextBlock Grid.Column="2"
+                       FontSize="30"
+                       x:Name="MinuteIndicator"
+            >00</TextBlock>
+            <Label Grid.Column="3"
+            FontSize="30"
+            >:</Label>
+            <TextBlock Grid.Column="4"
+                       FontSize="30"
+                       x:Name="SecondIndicator"
+            >00</TextBlock>
+        </Grid>
+        
+        <Grid
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="15"
+            ColumnDefinitions="Auto,Auto,Auto"
+            >
+            <Button
+                Grid.Column="0"
+                Click="StartButton_OnClick">
+                Start
+            </Button>
+            <Button
+                Grid.Column="1"
+                Click="StopButton_OnClick"
+                >Stop
+            </Button>
+            <Button
+                Grid.Column="2"
+                Click="ResetButton_OnClick"
+                >Reset</Button>
+
+        </Grid>
+        
+        
+    </Grid>
+    
+    
+
+</Window>
