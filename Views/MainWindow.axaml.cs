@@ -3,6 +3,7 @@ using System.Timers;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace DailyQuotaTimer.Views;
 
@@ -31,10 +32,16 @@ public partial class MainWindow : Window
             PrettyTextLabelDisplay(Seconds);
             if (Seconds <= 0)
             {
+                var builder = new ToastContentBuilder()
+                    .AddText("Time's up!")
+                    .SetToastScenario(ToastScenario.Alarm);
+                    // .AddButton(new ToastButton()
+                    //     .SetContent("Open App")
+                    //     .AddArgument("action", "open")
+                    //     .SetBackgroundActivation());
                 
+                builder.Show();
                 
-                    
-
                 aTimer.Stop();
                 // aTimer.Dispose();
             }
@@ -58,7 +65,8 @@ public partial class MainWindow : Window
 
     private void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        // throw new System.NotImplementedException();
+        if (Seconds <= 0) return;
+        
         if (aTimer == null)
         {
             SetTimer();
@@ -67,6 +75,16 @@ public partial class MainWindow : Window
         {
             aTimer.Start();
         }
+        
+        // var builder = new ToastContentBuilder()
+        //     .AddText("Hello from Avalonia!")
+        //     .SetToastScenario(ToastScenario.Alarm)
+        //     .AddButton(new ToastButton()
+        //         .SetContent("Open App")
+        //         .AddArgument("action", "open")
+        //         .SetBackgroundActivation());
+        //
+        // builder.Show();
         
         // HourIndicator.Text = "99";
         // MinuteIndicator.Text = "99";
