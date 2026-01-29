@@ -10,7 +10,7 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Daily Quota Timer"
         Background="Transparent"
-        TransparencyLevelHint="AcrylicBlur">
+        TransparencyLevelHint="AcrylicBlur,Mica">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
