@@ -21,11 +21,12 @@
     <Grid>
         <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
         <Grid
-            ColumnDefinitions="Auto,Auto,Auto,Auto,Auto"
+            ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
             Margin="15"
             VerticalAlignment="Top"
             HorizontalAlignment="Center"
             >
+            <!-- <Button Grid.Column="5" x:Name="Btn5S" Click="Btn5S_OnClick">5s</Button> -->
             <Button Grid.Column="0" x:Name="Btn5M" Click="Btn5M_OnClick">5m</Button>
             <Button Grid.Column="1" x:Name="Btn10M" Click="Btn10M_OnClick">10m</Button>
             <Button Grid.Column="2" x:Name="Btn30M" Click="Btn30M_OnClick">30m</Button>

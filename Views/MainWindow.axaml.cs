@@ -17,7 +17,7 @@ public partial class MainWindow : Window
     private void SetTimer()
     {
         // Create a timer with a two second interval.
-        aTimer = new System.Timers.Timer(1000);
+        aTimer = new Timer(1000);
         // Hook up the Elapsed event for the timer. 
         aTimer.Elapsed += OnTimedEvent;
         aTimer.AutoReset = true;
@@ -32,15 +32,14 @@ public partial class MainWindow : Window
             PrettyTextLabelDisplay(Seconds);
             if (Seconds <= 0)
             {
-                var builder = new ToastContentBuilder()
+                new ToastContentBuilder()
                     .AddText("Time's up!")
-                    .SetToastScenario(ToastScenario.Alarm);
-                    // .AddButton(new ToastButton()
-                    //     .SetContent("Open App")
-                    //     .AddArgument("action", "open")
-                    //     .SetBackgroundActivation());
-                
-                builder.Show();
+                    .SetToastScenario(ToastScenario.Alarm)
+                    .AddButton(new ToastButton()
+                        .SetContent("Useless button that does nothing")
+                        .AddArgument("action", "open")
+                        .SetBackgroundActivation())
+                    .Show();
                 
                 aTimer.Stop();
                 // aTimer.Dispose();
@@ -120,6 +119,12 @@ public partial class MainWindow : Window
         PrettyTextLabelDisplay(2*60*60);
         Seconds = 2 * 60 * 60;
     }
+    
+    private void Btn5S_OnClick(object? sender, RoutedEventArgs e)
+    {
+        PrettyTextLabelDisplay(5);
+        Seconds = 5;
+    }
 
     private void ResetButton_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -129,6 +134,8 @@ public partial class MainWindow : Window
 
     private void StopButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        aTimer.Stop();
+        if (aTimer != null)
+            aTimer.Stop();
     }
+
 }
