@@ -4,24 +4,29 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace DailyQuotaTimer.Views;
 
 public partial class MainWindow : Window
 {
     public int Seconds { get; set; } = 0;
-
-    private Timer aTimer;
+    
+    private Timer _aTimer;
+    private bool _timerRunning = false;
     
     
     private void SetTimer()
     {
         // Create a timer with a two second interval.
-        aTimer = new Timer(1000);
+        _aTimer = new Timer(1000);
         // Hook up the Elapsed event for the timer. 
-        aTimer.Elapsed += OnTimedEvent;
-        aTimer.AutoReset = true;
-        aTimer.Enabled = true;
+        _aTimer.Elapsed += OnTimedEvent;
+        _aTimer.AutoReset = true;
+        _aTimer.Enabled = true;
+        
+        _timerRunning = true;
     }
     private void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
@@ -41,8 +46,10 @@ public partial class MainWindow : Window
                         .SetBackgroundActivation())
                     .Show();
                 
-                aTimer.Stop();
+                _aTimer.Stop();
                 // aTimer.Dispose();
+                
+                _timerRunning = false;
             }
         });
         
@@ -62,70 +69,32 @@ public partial class MainWindow : Window
         SecondIndicator.Text = (seconds % 60).ToString("00");
     }
 
+    private void TimeButtonUniversal_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.Tag is string timeValue)
+        {
+            int seconds = int.Parse(timeValue);
+            PrettyTextLabelDisplay(seconds);
+            Seconds = seconds;
+        }
+    }
+
     private void StartButton_OnClick(object? sender, RoutedEventArgs e)
     {
         if (Seconds <= 0) return;
         
-        if (aTimer == null)
+        if (_aTimer == null)
         {
             SetTimer();
         }
         else
         {
-            aTimer.Start();
+            _aTimer.Start();
         }
         
-        // var builder = new ToastContentBuilder()
-        //     .AddText("Hello from Avalonia!")
-        //     .SetToastScenario(ToastScenario.Alarm)
-        //     .AddButton(new ToastButton()
-        //         .SetContent("Open App")
-        //         .AddArgument("action", "open")
-        //         .SetBackgroundActivation());
-        //
-        // builder.Show();
-        
-        // HourIndicator.Text = "99";
-        // MinuteIndicator.Text = "99";
-        // SecondIndicator.Text = "99";
-    }
-
-    private void Btn5M_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(5*60);
-        Seconds = 5 * 60;
-    }
-
-    private void Btn10M_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(10*60);
-        Seconds = 10 * 60;
-    }
-
-    private void Btn30M_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(30*60);
-        Seconds = 30 * 60;
-    }
-
-    private void Btn1H_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(60*60);
-        Seconds = 60 * 60;
-    }
-
-    private void Btn2H_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(2*60*60);
-        Seconds = 2 * 60 * 60;
+        _timerRunning = true;
     }
     
-    private void Btn5S_OnClick(object? sender, RoutedEventArgs e)
-    {
-        PrettyTextLabelDisplay(5);
-        Seconds = 5;
-    }
-
     private void ResetButton_OnClick(object? sender, RoutedEventArgs e)
     {
         PrettyTextLabelDisplay(0);
@@ -134,8 +103,50 @@ public partial class MainWindow : Window
 
     private void StopButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (aTimer != null)
-            aTimer.Stop();
+        if (_aTimer != null)
+        {
+            _aTimer.Stop();
+            _timerRunning = false;
+        }
     }
 
+
+
+    protected override async void OnClosing(WindowClosingEventArgs e)
+    {
+        if (!_timerRunning)
+        {
+            base.OnClosing(e);
+            return;
+        }
+        
+        e.Cancel = true;
+        
+        var box = MessageBoxManager
+            .GetMessageBoxStandard("Quit?", "Are you sure you would like to quit the application?" +
+                                              "\nThe timer is still running!",
+                ButtonEnum.YesNo);
+
+        var result = await box.ShowAsync();
+
+        if (result == ButtonResult.Yes)
+        {
+            // This is required.
+            // Dialog reopens in a loop otherwise.
+            _aTimer.Stop();
+            _aTimer.Dispose();
+            _timerRunning = false;
+            
+            e.Cancel = false;
+            base.OnClosing(e);
+            this.Close();
+        }
+    }
+}
+
+enum ButtonMode
+{
+    Set,
+    Add,
+    Remove
 }
