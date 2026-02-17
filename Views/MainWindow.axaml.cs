@@ -16,6 +16,8 @@ public partial class MainWindow : Window
     private Timer _aTimer;
     private bool _timerRunning = false;
     
+    private ButtonMode _buttonMode = ButtonMode.Set;
+    
     
     private void SetTimer()
     {
@@ -74,8 +76,33 @@ public partial class MainWindow : Window
         if (sender is Button btn && btn.Tag is string timeValue)
         {
             int seconds = int.Parse(timeValue);
-            PrettyTextLabelDisplay(seconds);
-            Seconds = seconds;
+            if (_buttonMode == ButtonMode.Set)
+            {
+                PrettyTextLabelDisplay(seconds);
+                Seconds = seconds;
+
+            }
+            else
+            {
+                PrettyTextLabelDisplay(Seconds+seconds);
+                Seconds += seconds;
+            }
+        }
+    }
+
+    private void ToggleTimeModeButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (_buttonMode == ButtonMode.Set)
+        {
+            _buttonMode = ButtonMode.Add;
+            ToggleTimeModeButton.Content = "+";
+            ToolTip.SetTip(ToggleTimeModeButton,"Additive time mode.");
+        }
+        else
+        {
+            _buttonMode = ButtonMode.Set;
+            ToggleTimeModeButton.Content = "=";
+            ToolTip.SetTip(ToggleTimeModeButton,"Set time mode.");
         }
     }
 

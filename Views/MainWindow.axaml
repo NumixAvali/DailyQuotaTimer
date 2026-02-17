@@ -19,13 +19,13 @@
     </Design.DataContext>
 
     <Grid>
-        <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
+        <!-- Top button row -->
         <Grid
             ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
             Margin="15"
             VerticalAlignment="Top"
             HorizontalAlignment="Center"
-            >
+        >
             <!-- <Button  -->
             <!--     Grid.Column="5" -->
             <!--     Tag="5" -->
@@ -38,6 +38,7 @@
             <Button Grid.Column="4" Tag="7200" Click="TimeButtonUniversal_OnClick">2h</Button>
         </Grid>
         
+        <!-- Central time indicator -->
         <Grid
             ColumnDefinitions="Auto,Auto,Auto,Auto,Auto"
             VerticalAlignment="Center"
@@ -63,6 +64,15 @@
             >00</TextBlock>
         </Grid>
         
+        <!-- Set/Add button -->
+        <Button
+            Margin="10"
+            ToolTip.Tip="Set time mode."
+            x:Name="ToggleTimeModeButton"
+            Click="ToggleTimeModeButton_OnClick"
+            >=</Button>
+        
+        <!-- Lower control button row -->
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
