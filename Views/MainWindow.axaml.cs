@@ -1,7 +1,9 @@
 using System;
 using System.Timers;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 using MsBox.Avalonia;
@@ -103,6 +105,23 @@ public partial class MainWindow : Window
             _buttonMode = ButtonMode.Set;
             ToggleTimeModeButton.Content = "=";
             ToolTip.SetTip(ToggleTimeModeButton,"Set time mode.");
+        }
+    }
+
+    private void ToggleTopmostModeButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (Topmost)
+        {
+            TopmostToggleButton.ClearValue(Button.BackgroundProperty);
+            Topmost = false;
+        }
+        else
+        {
+            Topmost = true;
+            if (Application.Current!.TryFindResource("SystemControlHighlightAccentBrush", out var accentBrush))
+            {
+                TopmostToggleButton.Background = (IBrush)accentBrush!;
+            }
         }
     }
 
