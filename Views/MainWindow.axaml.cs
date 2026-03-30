@@ -78,33 +78,54 @@ public partial class MainWindow : Window
         if (sender is Button btn && btn.Tag is string timeValue)
         {
             int seconds = int.Parse(timeValue);
-            if (_buttonMode == ButtonMode.Set)
-            {
-                PrettyTextLabelDisplay(seconds);
-                Seconds = seconds;
 
-            }
-            else
+            switch (_buttonMode)
             {
-                PrettyTextLabelDisplay(Seconds+seconds);
-                Seconds += seconds;
+                case ButtonMode.Add:
+                    PrettyTextLabelDisplay(Seconds+seconds);
+                    Seconds += seconds;
+                    break;
+                case ButtonMode.Set:
+                    PrettyTextLabelDisplay(seconds);
+                    Seconds = seconds;
+                    break;
+                case ButtonMode.Remove:
+                    PrettyTextLabelDisplay(Seconds-seconds);
+                    Seconds -= seconds;
+                    if (seconds <= 0) Seconds = 0;
+                    break;
             }
         }
     }
 
     private void ToggleTimeModeButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (_buttonMode == ButtonMode.Set)
+        switch (_buttonMode)
         {
-            _buttonMode = ButtonMode.Add;
-            ToggleTimeModeButton.Content = "+";
-            ToolTip.SetTip(ToggleTimeModeButton,"Additive time mode.");
-        }
-        else
-        {
-            _buttonMode = ButtonMode.Set;
-            ToggleTimeModeButton.Content = "=";
-            ToolTip.SetTip(ToggleTimeModeButton,"Set time mode.");
+            case ButtonMode.Add:
+                _buttonMode = ButtonMode.Remove;
+                ToggleTimeModeButton.Content = "-";
+                ToolTip.SetTip(ToggleTimeModeButton,"Subtractive time mode.");
+
+                break;
+            case ButtonMode.Set:
+                _buttonMode = ButtonMode.Add;
+                ToggleTimeModeButton.Content = "+";
+                ToolTip.SetTip(ToggleTimeModeButton,"Additive time mode.");
+
+                break;
+            case ButtonMode.Remove:
+                _buttonMode = ButtonMode.Set;
+                ToggleTimeModeButton.Content = "=";
+                ToolTip.SetTip(ToggleTimeModeButton,"Set time mode.");
+
+                break;
+            default:
+                _buttonMode = ButtonMode.Set;
+                ToggleTimeModeButton.Content = "=";
+                ToolTip.SetTip(ToggleTimeModeButton,"Set time mode.");
+
+                break;
         }
     }
 
