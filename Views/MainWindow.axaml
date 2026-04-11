@@ -20,6 +20,20 @@
 
     <Grid
         Margin="15">
+        <!-- Actual acrylic blur -->
+        <ExperimentalAcrylicBorder
+            Margin="-15">
+            <!-- That /|\ is such a dumb workaround, I hate it! -->
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="{DynamicResource DynamicAcrylicBlurColor}"
+                    TintOpacity="0.5"
+                    MaterialOpacity="0.25">
+                </ExperimentalAcrylicMaterial>
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+        
         <!-- Top button row -->
         <Grid
             ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"

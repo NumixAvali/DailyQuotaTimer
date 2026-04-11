@@ -4,6 +4,19 @@
              xmlns:local="using:DailyQuotaTimer"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             
+     <Application.Resources>
+         <ResourceDictionary>
+             <ResourceDictionary.ThemeDictionaries>
+                 <ResourceDictionary x:Key="Light">
+                     <Color x:Key="DynamicAcrylicBlurColor">Gray</Color>
+                 </ResourceDictionary>
+                 <ResourceDictionary x:Key="Dark">
+                     <Color x:Key="DynamicAcrylicBlurColor">#222222</Color>
+                 </ResourceDictionary>
+             </ResourceDictionary.ThemeDictionaries>
+         </ResourceDictionary>
+     </Application.Resources>
 
     <Application.DataTemplates>
         <local:ViewLocator/>
